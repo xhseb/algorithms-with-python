@@ -1,37 +1,26 @@
-### 실패 ###
 n, m = map(int, input().split())
-
-a = []
-b = []
-
-
-def input_func(a):
-    for i in range(n):
-        str = input()
-        for l in range(m):
-            a.append(int(str[l]))
-
-
-input_func(a)
-input_func(b)
+a = [list(map(int, input())) for _ in range(n)]
+b = [list(map(int, input())) for _ in range(n)]
+#NOTE - 문자열이 iterable하기 때문에 map함수를 사용하여 각 문자를 int형으로 바꿀 수 있다.
 
 result = 0
 
-for i in range(n - 2):
-    for l in range(m - 2):
-        tmp1 = a
-        tmp2 = b
-        num = m * i + l
-        if tmp1[num:num + 3] != tmp2[num:num + 3]:
-            for j in range(3):
-                for k in range(3):
-                    if (a[num + k + m * j] == 0):
-                        a[num + k + m * j] = 1
-                    else:
-                        a[num + k + m * j] = 0
-            result += 1
+def flip(i, j):
+    for x in range(i, i + 3):
+        for y in range(j, j + 3):
+            a[x][y] = 1 - a[x][y]
 
-if (a != b):
+for i in range(n - 2):
+    for j in range(m - 2):
+        if a[i][j] != b[i][j]:
+            flip(i, j)
+            result += 1
+        if a == b:
+            break
+    if a == b:
+        break
+
+if a != b:
     result = -1
 
 print(result)

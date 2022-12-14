@@ -1,17 +1,18 @@
+def get_gene(pose):
+    n, p = pose
+    stack = []
+    
+    p -= 1
+    while n>1:
+        stack.append(p%4)
+        n -= 1
+        p //= 4
+    
+    while len(stack) > 0:
+        num = stack.pop()
+        if num == 0: return 'RR'
+        if num == 3: return 'rr'
+    return 'Rr'
+ 
 def solution(queries):
-    answer = []
-    for i in queries:
-        if i[0] == 1 and i[1] == 1:
-            answer.append('Rr')
-        elif i[1] <= 4 ** (i[0] - 2):
-            answer.append('RR')
-        elif 4 ** (i[0] - 2) < i[1] and i[1] <= 4 ** (i[0] - 1) - 4 ** (i[0] - 2):
-            if i[1] % 4 == 1:
-                answer.append('RR')
-            elif i[1] % 4 == 2 or i[1] % 4 == 3:
-                answer.append('Rr')
-            else:
-                answer.append('rr')
-        else:
-            answer.append('rr')
-    return answer
+    return [*map(get_gene, queries)]
